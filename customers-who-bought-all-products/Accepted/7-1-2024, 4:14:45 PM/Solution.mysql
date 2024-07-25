@@ -1,0 +1,21 @@
+// https://leetcode.com/problems/customers-who-bought-all-products
+
+# Write your MySQL query statement below
+with
+unique_customer as
+(select customer_id, product_key
+from customer
+group by customer_id, product_key),
+cte as
+(select customer_id, count(product_key) as 'count1'
+from unique_customer
+group by customer_id),
+all_products as
+(select count(product_key) as 'count_product_key'
+from product),
+cs as (select customer_id, count1, count_product_key
+from cte cross join all_products)
+select customer_id
+from cs 
+where count1 = count_product_key;
+

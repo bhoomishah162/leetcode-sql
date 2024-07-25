@@ -1,0 +1,23 @@
+// https://leetcode.com/problems/friend-requests-ii-who-has-the-most-friends
+
+# Write your MySQL query statement below
+with cte as 
+(select requester_id, count(requester_id) as req_requested
+from requestaccepted
+group by requester_id),
+cte1 as (select accepter_id, count(accepter_id) as req_accepted
+from requestaccepted
+group by accepter_id ),
+cte3 as (select * from cte left join cte1
+on cte.requester_id = cte1.accepter_id
+union
+select * from cte right join cte1
+on cte.requester_id = cte1.accepter_id),
+cte4 as (select case
+when requester_id is not null then requester_id else accepter_id end as id,
+case when req_requested is not null and req_accepted is not null then (req_requested + req_accepted)
+when req_requested is not null then req_requested
+else req_accepted end as num
+from cte3),
+cte5 as (select max(num) as mnum from cte4)
+select id, num from cte4 join cte5 on cte4.num = cte5.mnum;

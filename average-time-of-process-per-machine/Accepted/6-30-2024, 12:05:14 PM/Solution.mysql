@@ -1,0 +1,11 @@
+// https://leetcode.com/problems/average-time-of-process-per-machine
+
+# Write your MySQL query statement below
+With 
+start AS (Select machine_id,process_id, timestamp AS t1 from Activity where activity_type = 'start'),
+end AS (Select machine_id,process_id, timestamp AS t2 from Activity where activity_type = 'end')
+select s.machine_id, ROUND(SUM(t2-t1)/Count(*),3) AS processing_time
+from start s
+Join end e 
+On s.machine_id = e.machine_id AND s.process_id = e.process_id
+group by s.machine_id;

@@ -1,0 +1,11 @@
+// https://leetcode.com/problems/percentage-of-users-attended-a-contest
+
+# Write your MySQL query statement below
+WITH 
+cte AS 
+(Select COUNT(user_id)  AS 'Total_Users'from Users)
+SELECT r.contest_id, ROUND(COUNT(user_id)*100/(cte.Total_Users),2) AS 'Percentage'
+FROM register r
+CROSS JOIN cte
+GROUP BY r.contest_id
+ORDER BY Percentage DESC,  contest_id ASC;

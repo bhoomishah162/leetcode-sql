@@ -1,0 +1,11 @@
+// https://leetcode.com/problems/classes-more-than-5-students
+
+# Write your MySQL query statement below:
+with
+cte as
+(select class, count(student) as 'student_count'
+from courses
+group by class)
+select class 
+from cte
+where student_count >= 5;

@@ -1,0 +1,15 @@
+// https://leetcode.com/problems/department-top-three-salaries
+
+# Write your MySQL query statement below
+with cte as 
+(select d.id, e.name, salary, departmentid, 
+d.name as dept_name
+from employee e
+join department d 
+on e.departmentid = d.id
+),
+cte1 as (select *, DENSE_RANK() OVER (PARTITION BY id ORDER BY salary DESC) AS denseR
+from cte)
+select dept_name as department, name as employee, salary
+from cte1
+where denseR <= 3;

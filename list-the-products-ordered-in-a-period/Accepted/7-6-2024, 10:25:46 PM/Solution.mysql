@@ -1,0 +1,14 @@
+// https://leetcode.com/problems/list-the-products-ordered-in-a-period
+
+# Write your MySQL query statement below
+with cte as 
+(select * from orders
+where year(order_date) = 2020 and month(order_date) = 02),
+cte1 as (select product_id, sum(unit) as unit
+from cte
+group by product_id)
+select product_name, unit
+from products p
+join cte1
+on p.product_id = cte1.product_id
+where unit >= 100;

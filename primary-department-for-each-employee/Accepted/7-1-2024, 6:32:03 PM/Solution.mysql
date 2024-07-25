@@ -1,0 +1,12 @@
+// https://leetcode.com/problems/primary-department-for-each-employee
+
+# Write your MySQL query statement below
+with cte as
+(select employee_id, count(department_id) as 'count_dep'
+from employee 
+group by employee_id)
+select e.employee_id, e.department_id
+from employee e
+join cte
+on e.employee_id = cte.employee_id
+where primary_flag = 'Y' or count_dep = 1;

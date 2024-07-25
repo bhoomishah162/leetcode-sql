@@ -1,0 +1,14 @@
+// https://leetcode.com/problems/exchange-seats
+
+# Write your MySQL query statement below:
+with cte as 
+(select max(id) as MaxID from seat)
+select
+case
+when id % 2 != 0 and id = cte.MaxId then id
+when id % 2 != 0 then id + 1
+when id % 2 = 0 then id - 1
+end as id, student
+from seat s
+cross join cte
+order by id asc;

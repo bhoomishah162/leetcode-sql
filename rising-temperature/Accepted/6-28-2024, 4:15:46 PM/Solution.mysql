@@ -1,0 +1,17 @@
+// https://leetcode.com/problems/rising-temperature
+
+# Write your MySQL query statement below
+SELECT 
+    id
+FROM 
+    (SELECT 
+         id,
+         temperature,
+         recorddate,
+         LAG(recorddate, 1) OVER (ORDER BY recordDate) AS previous_recorddate,
+         LAG(temperature, 1) OVER (ORDER BY recordDate) AS previous_temp
+     FROM 
+         Weather
+    ) AS temp_diff
+WHERE 
+    temperature > previous_temp and DATEDIFF(recorddate,previous_recorddate) = 1;

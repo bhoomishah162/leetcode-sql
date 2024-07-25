@@ -1,0 +1,12 @@
+// https://leetcode.com/problems/managers-with-at-least-5-direct-reports
+
+# Write your MySQL query statement below
+WITH
+cte AS (SELECT managerid
+FROM Employee 
+GROUP BY managerid
+HAVING Count(*) >= 5)
+SELECT name 
+FROM Employee e
+JOIN cte c
+ON e.id = c.managerid;

@@ -1,0 +1,19 @@
+// https://leetcode.com/problems/product-price-at-a-given-date
+
+# Write your MySQL query statement below
+with 
+cte_products as 
+(select product_id from products group by product_id),
+cte as
+(select product_id, max(change_date) as 'cg'
+from products
+where change_date <= '2019-08-16'
+group by product_id),
+cte2 as
+(select p.product_id, new_price from cte 
+inner join products p
+on cte.product_id = p.product_id and
+cte.cg = p.change_date)
+select p.product_id, case when new_price is null then 10 else new_price end as price 
+from cte2 right join cte_products p
+on p.product_id = cte2.product_id;

@@ -1,0 +1,14 @@
+// https://leetcode.com/problems/confirmation-rate
+
+# Write your MySQL query statement below:
+WITH 
+CTE AS
+(SELECT s.user_id,
+CASE WHEN action = 'confirmed' THEN 1
+ELSE 0
+END AS confirm
+FROM confirmations c
+RIGHT JOIN signups s
+ON c.user_id=s.user_id)
+Select user_id, ROUND(SUM(confirm)/COUNT(*), 2) as confirmation_rate from cte
+group by user_id

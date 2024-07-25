@@ -1,0 +1,11 @@
+// https://leetcode.com/problems/product-sales-analysis-iii
+
+# Write your MySQL query statement below
+with cte as 
+(select product_id, min(year) as first_year
+from sales
+group by product_id)
+select s.product_id, first_year, quantity, price
+from sales s
+join cte
+on s.product_id = cte.product_id AND s.year = cte.first_year;

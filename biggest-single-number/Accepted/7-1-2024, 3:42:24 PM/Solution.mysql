@@ -1,0 +1,14 @@
+// https://leetcode.com/problems/biggest-single-number
+
+# Write your MySQL query statement below
+with 
+cte as
+(select num, count(num) as 'count'
+from MyNumbers
+group by num),
+l as 
+(select num 
+from cte
+where count < 2)
+select max(num) as 'num'
+from l;

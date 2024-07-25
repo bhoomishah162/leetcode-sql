@@ -1,0 +1,11 @@
+// https://leetcode.com/problems/last-person-to-fit-in-the-bus
+
+# Write your MySQL query statement below
+with cte as 
+(select *,
+sum(weight) over (order by turn) as 'sm'
+from queue order by sm desc)
+select person_name 
+from cte
+where sm <= 1000
+limit 1;

@@ -1,0 +1,19 @@
+// https://leetcode.com/problems/market-analysis-i
+
+# Write your MySQL query statement below
+with cte as
+(select * 
+from Orders
+where year(order_date) = '2019'),
+cte1 as
+(select * from Users u
+left join cte 
+on u.user_id = cte.buyer_id),
+cte2 as
+(select user_id, count(buyer_id) as orders_in_2019
+from cte1
+group by user_id)
+select u.user_id as buyer_id, u.join_date, cte2.orders_in_2019
+from cte2
+join Users u
+on cte2.user_id = u.user_id;

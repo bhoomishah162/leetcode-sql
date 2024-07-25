@@ -1,0 +1,12 @@
+// https://leetcode.com/problems/sales-analysis-iii
+
+# Write your MySQL query statement below
+with cte as 
+(select distinct product_id from sales
+where sale_date between '2019-01-01' and '2019-03-31'),
+cte1 as (select distinct product_id from sales
+where sale_date > '2019-03-31' or sale_date < '2019-01-01')
+Select cte.product_id, product_name from cte
+join product p
+on cte.product_id = p.product_id
+where cte.product_id not in (Select product_id from cte1);

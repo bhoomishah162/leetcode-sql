@@ -1,0 +1,11 @@
+// https://leetcode.com/problems/students-and-examinations
+
+# Write your MySQL query statement below:
+WITH 
+cte AS (Select * FROM Students CROSS JOIN Subjects)  
+SELECT cc.student_id, cc.student_name, cc.subject_name, COUNT(ex.student_id) AS attended_exams 
+FROM cte cc 
+LEFT JOIN Examinations ex 
+ON cc.student_id = ex.student_id AND cc.subject_name = ex.subject_name
+GROUP BY cc.student_id, cc.student_name, cc.subject_name
+ORDER BY cc.student_id, cc.student_name;

@@ -1,0 +1,21 @@
+// https://leetcode.com/problems/count-salary-categories
+
+# Write your MySQL query statement below:
+with cte as
+(select *,
+case when income < 20000 then 'Low Salary'
+when income >= 20000 and income <=50000 then 'Average Salary'
+else 'High Salary' end as 'category' from accounts),
+cte1 as 
+(select category, count(category) as 'accounts_count'
+from cte group by category),
+db as (select 'Low Salary' as 'Category'
+union 
+select 'Average Salary' as 'Category'
+union
+select 'High Salary' as 'Category' )
+select db.category,
+case when accounts_count is null then 0 else accounts_count end as 'accounts_count'
+from cte1
+right join db
+on cte1.category = db.category;

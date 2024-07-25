@@ -1,0 +1,13 @@
+// https://leetcode.com/problems/consecutive-numbers
+
+# Write your MySQL query statement below:
+with cte as 
+(select *,
+lag(num,1) over (order by id) as 'lag1',
+lag(num,2) over (order by id) as 'lag2',
+lag(id,1) over (order by id) as 'id1',
+lag (id,2) over (order by id) as 'id2'
+from logs)
+select distinct num as ConsecutiveNums from cte
+where num = lag1 and num = lag2
+and id = id1+1 and id = id2+2;
